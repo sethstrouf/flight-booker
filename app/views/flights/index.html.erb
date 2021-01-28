@@ -1,0 +1,34 @@
+<h1>Flight Index</h1><br>
+
+<%= form_with url: root_url, method: :get do |f| %>
+  <%= f.label :from_airport_id, "From: " %>
+  <%= select_tag(:from_airport_id, options_for_select(@airport_options)) %>
+
+  <%= f.label :to_airport_id, "To: " %>
+  <%= select_tag(:to_airport_id, options_for_select(@airport_options)) %>
+
+  <%= f.label :num_passengers, "# of Passengers: " %>
+  <%= f.select :num_passengers, [1, 2, 3, 4] %>
+
+  <%= f.label :start_time, "Start Date: " %>
+  <%= f.select :start_time, @flight_date_options.uniq %>
+
+  <%= f.submit "Search" %>
+<% end %>
+
+<br><br><hr><br><br>
+
+<% @available_flights.each do |flight| %>
+  <strong><%= flight.date %></strong><br>
+  From: <%= flight.from_airport.code %><br>
+  To: <%= flight.to_airport.code %><br><br>
+<% end %>
+
+<%= form_with url: new_booking_url, method: :get do |f| %>
+  <% @available_flights.each do |flight| %>
+    <%= f.radio_button :flight_id, flight.id %>
+    <%= f.label :flight_id, flight.info %><br>
+  <% end %>
+  <%= f.hidden_field :num_passengers, value: params[:num_passengers] %>
+  <br><%= f.submit "Book Flight" %><br>
+<% end %>

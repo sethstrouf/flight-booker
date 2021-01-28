@@ -1,0 +1,7 @@
+<h1>Your Flight is booked!</h1>
+
+<%= @booking.flight.info %><br><br>
+
+<% @booking.passengers.each do |p| %>
+  <%= p.name %> | <%= p.email %><br>
+<% end %>

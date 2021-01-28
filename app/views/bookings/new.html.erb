@@ -1,0 +1,20 @@
+<h1>New Booking</h1>
+
+<%= params %><br><Br>
+<%= @flight_id %><br><Br>
+<%= @num_passengers %> passengers<br><Br>
+
+<hr><br>
+
+<%= form_with model: @booking do |booking_form| %>
+  <strong><%= Flight.find(@flight_id).info %></strong><br><br>
+    <%= booking_form.fields_for :passengers do |p_form| %>
+      <strong><%= "New passenger: " %></strong><br><br>
+      <%= p_form.label :name %>
+      <%= p_form.text_field :name %><br>
+      <%= p_form.label :email %>
+      <%= p_form.text_field :email %><br><br>
+    <% end %>
+  <%= booking_form.hidden_field :flight_id, value: @flight_id %>
+  <br><%= booking_form.submit "Book!" %>
+<% end %>
